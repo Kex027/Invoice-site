@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { getInvoicesList, getFilteredValue } from "./InvoicesSlice";
 
-const InvoicesList = ({ btnRef }) => {
+const InvoicesList = () => {
   const invoices = useSelector(getInvoicesList);
   const filteredInvoicesStatus = useSelector(getFilteredValue);
 
@@ -20,15 +20,15 @@ const InvoicesList = ({ btnRef }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg">
       {filteredInvoices().map(
-        ({ id, invoiceDate, payList, payStatus, to: { name } }, index) => {
+        ({ id, invoiceDate, payList, payStatus, totalPrice, to: { name } }, index) => {
           return (
             <Invoice
-              btnRef={btnRef}
               id={id}
               date={invoiceDate}
               payList={payList}
               name={name}
               payStatus={payStatus}
+              totalPrice={totalPrice}
               orderValue={index + 1}
               key={`${id}-${index}`}
             />

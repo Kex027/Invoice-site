@@ -12,9 +12,11 @@ import InvoiceForm from "./InvoiceForm";
 import { setUserData, setUserFlag } from "../InvoicesSlice";
 import { useDispatch } from "react-redux";
 
-const DrawerAddInvoice = ({btnRef}) => {
+const DrawerAddInvoice = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+  const btnRef = React.useRef();
+  
   return (
     <>
       <Button

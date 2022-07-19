@@ -11,18 +11,11 @@ import {
   Button,
   Flex,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
-  Text,
 } from "@chakra-ui/react";
 import ModalWindow from "./modal/ModalWindow";
 
-const Invoice = ({ id, date, name, payList, payStatus, orderValue, btnRef }) => {
+const Invoice = ({ date, name, payStatus, orderValue, totalPrice }) => {
   let badgeColor;
   switch (payStatus) {
     case "paid":
@@ -67,7 +60,7 @@ const Invoice = ({ id, date, name, payList, payStatus, orderValue, btnRef }) => 
         <Stat>
           <Flex align="center" justify="space-around">
             <StatNumber>
-              ${payList.reduce((totalPrice, { total }) => totalPrice + total, 0)}
+              ${totalPrice}
             </StatNumber>
             <Badge colorScheme={badgeColor}>{payStatus}</Badge>
 
@@ -75,7 +68,7 @@ const Invoice = ({ id, date, name, payList, payStatus, orderValue, btnRef }) => 
               &#62;
             </Button>
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
-              <ModalWindow badgeColor={badgeColor} invoiceIndex={orderValue - 1} btnRef={btnRef} />
+              <ModalWindow badgeColor={badgeColor} invoiceIndex={orderValue - 1} />
             </Modal>
           </Flex>
         </Stat>

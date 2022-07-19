@@ -5,7 +5,6 @@ import {
   FormLabel,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 
 const FormField = ({ formField, register, errors }) => {
   const displayField = (fieldType = "text", patternValue = {}) => (

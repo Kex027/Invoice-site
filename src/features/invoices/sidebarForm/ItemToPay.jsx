@@ -9,9 +9,8 @@ import {
   FormControl,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { Controller, useForm, useWatch } from "react-hook-form";
 
-const ItemToPay = ({ update, watch, control, remove, field, index }) => {
+const ItemToPay = ({ update, remove, field, register, errors, index }) => {
   const inputs = ["name", "quantity", "price"];
 
   return (
@@ -20,7 +19,7 @@ const ItemToPay = ({ update, watch, control, remove, field, index }) => {
         {inputs.map((inputValue) => {
           return (
             <GridItem w="100%" h="10" key={`${index}-${inputValue}`}>
-              <FormControl>
+              <FormControl isInvalid={errors[inputValue]}>
                 <Input
                   p="1"
                   type={inputValue === "name" ? "text" : "number"}
@@ -32,11 +31,16 @@ const ItemToPay = ({ update, watch, control, remove, field, index }) => {
                         ...field,
                         [inputValue]: Number(value),
                       });
-                      // update(index, { ...field, total: (Number(field.quantity) * Number(field.price)) });
                     }
                   }}
+                  // {...register(inputValue, {
+                  //   required: true,
+                  // })}
+                  isRequired
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>
+                  {errors[inputValue] && errors[inputValue].message}
+                </FormErrorMessage>
               </FormControl>
             </GridItem>
           );

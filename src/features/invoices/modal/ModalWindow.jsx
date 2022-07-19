@@ -13,12 +13,10 @@ import {
   Text,
   GridItem,
   Heading,
-  Divider,
   useDisclosure,
   Drawer,
   DrawerCloseButton,
   DrawerHeader,
-  DrawerOverlay,
   DrawerContent,
   Portal,
 } from "@chakra-ui/react";
@@ -26,19 +24,19 @@ import {
   getInvoicesList,
   deleteInvoice,
   togglePaid,
-  getUserData,
   setUserData,
   setUserFlag,
 } from "../InvoicesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InvoiceForm from "../sidebarForm/InvoiceForm";
 
-const ModalWindow = ({ invoiceIndex, badgeColor, btnRef }) => {
+const ModalWindow = ({ invoiceIndex, badgeColor }) => {
   const invoice = useSelector(getInvoicesList)[invoiceIndex];
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const columnNames = ["Item name", "Quantity", "Price", "Total"];
   const portalRef = React.useRef();
+  const btnRef = React.useRef();
 
   return (
     <div>
@@ -77,7 +75,7 @@ const ModalWindow = ({ invoiceIndex, badgeColor, btnRef }) => {
                     dispatch(togglePaid(invoiceIndex));
                   }}
                 >
-                  {invoice.payStatus != "paid"
+                  {invoice.payStatus !== "paid"
                     ? "Mark as paid"
                     : "Mark as unpaid"}
                 </Button>
@@ -154,7 +152,7 @@ const ModalWindow = ({ invoiceIndex, badgeColor, btnRef }) => {
               <GridItem>Amount Due</GridItem>
               <GridItem colSpan={3}>
                 <Heading size="md" float="right">
-                  {invoice.totalPrice}
+                  ${invoice.totalPrice}
                 </Heading>
               </GridItem>
             </Grid>
@@ -172,11 +170,11 @@ const ModalWindow = ({ invoiceIndex, badgeColor, btnRef }) => {
           }}
           finalFocusRef={btnRef}
         >
-            <DrawerContent>
-              <DrawerCloseButton />
-              <DrawerHeader>Create invoice</DrawerHeader>
-              <InvoiceForm onClose={onClose} invoiceId={invoice.id}/>
-            </DrawerContent>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Create invoice</DrawerHeader>
+            <InvoiceForm onClose={onClose} invoiceId={invoice.id} />
+          </DrawerContent>
         </Drawer>
       </Portal>
       <Box ref={portalRef}></Box>

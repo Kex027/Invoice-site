@@ -5,13 +5,12 @@ import { Container, Flex } from '@chakra-ui/react'
 import Sidebar from './features/invoices/sidebar/Sidebar';
 
 function App() {
-  const btnRef = React.useRef();
   return (
     <Flex>
       <Sidebar />
       <Container minW="3xl">
-        <Header btnRef={btnRef} />
-        <InvoicesList btnRef={btnRef} />
+        <Header />
+        <InvoicesList />
       </Container>
     </Flex>
   );

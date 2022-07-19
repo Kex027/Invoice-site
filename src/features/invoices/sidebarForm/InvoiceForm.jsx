@@ -3,25 +3,17 @@ import {
   DrawerBody,
   Flex,
   Button,
-  useDisclosure,
-  Stack,
   Grid,
   GridItem,
   Text,
-  Input,
-  FormErrorMessage,
-  FormLabel,
-  FormControl,
 } from "@chakra-ui/react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import FormField from "./FormField";
 import ItemToPay from "./ItemToPay";
 import {
   addInvoice,
   modifyUser,
-  getPayList,
-  addItemToPay,
   getUserData,
   setUserData,
   getAddUserFlag,
@@ -36,24 +28,38 @@ const InvoiceForm = ({ onClose, invoiceId }) => {
     register,
     watch,
     control,
-    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      streetAddress: userData.from.streetAddress,
-      city: userData.from.city,
-      postCode: userData.from.postCode,
-      country: userData.from.country,
-      clientName: userData.to.name,
-      clientEmail: userData.to.email,
-      clientStreetAddress: userData.to.address.streetAddress,
-      clientCity: userData.to.address.city,
-      clientPostCode: userData.to.address.postCode,
-      clientCountry: userData.to.address.country,
-      invoiceDate: userData.invoiceDate,
-      paymentTerms: userData.paymentTerms,
-    },
+    defaultValues:
+      // {
+      //   streetAddress: userData.from.streetAddress,
+      //   city: userData.from.city,
+      //   postCode: userData.from.postCode,
+      //   country: userData.from.country,
+      //   clientName: userData.to.name,
+      //   clientEmail: userData.to.email,
+      //   clientStreetAddress: userData.to.address.streetAddress,
+      //   clientCity: userData.to.address.city,
+      //   clientPostCode: userData.to.address.postCode,
+      //   clientCountry: userData.to.address.country,
+      //   invoiceDate: userData.invoiceDate,
+      //   paymentTerms: userData.paymentTerms,
+      // },
+      {
+        streetAddress: "19 Union Terrace",
+        city: "London",
+        postCode: "E1 3EZ",
+        country: "United Kingdom",
+        clientName: "Thomas Wayne",
+        clientEmail: "thomas@dc.com",
+        clientStreetAddress: "3964 Queens Lane",
+        clientCity: "Gotham",
+        clientPostCode: "60457",
+        clientCountry: "United States of America",
+        invoiceDate: "2021-08-01",
+        paymentTerms: "2022-08-31",
+      },
   });
 
   // streetAddress: "19 Union Terrace",
@@ -91,14 +97,14 @@ const InvoiceForm = ({ onClose, invoiceId }) => {
 
   function onSubmit(values) {
     if (!fields.length) {
-      return
+      console.log("there is 0 bought items");
+      return;
     }
     if (addUser) {
       dispatch(addInvoice(values));
     } else {
-      dispatch(modifyUser({values: values, id: invoiceId}))
+      dispatch(modifyUser({ values: values, id: invoiceId }));
     }
-    console.log("values: ", values);
     dispatch(setUserData({}));
   }
 
@@ -138,6 +144,8 @@ const InvoiceForm = ({ onClose, invoiceId }) => {
           <ItemToPay
             field={field}
             update={update}
+            register={register}
+            errors={errors}
             key={`${field}.${index}`}
             {...{ control, index, field }}
             remove={remove}
