@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   ModalOverlay,
   ModalContent,
@@ -35,8 +35,8 @@ const ModalWindow = ({ invoiceIndex, badgeColor }) => {
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const columnNames = ["Item name", "Quantity", "Price", "Total"];
-  const portalRef = React.useRef();
-  const btnRef = React.useRef();
+  const portalRef = useRef();
+  const btnRef = useRef();
 
   return (
     <div>

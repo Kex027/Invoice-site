@@ -45,7 +45,7 @@ const ItemToPay = ({ update, remove, field, register, errors, index }) => {
             </GridItem>
           );
         })}
-
+  {console.log(field)}
         <GridItem w="100%" h="10">
           <Flex justift="center" align="center">
             <Text fontWeight="bold">

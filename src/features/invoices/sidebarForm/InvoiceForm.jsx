@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DrawerBody,
   Flex,
@@ -32,34 +32,34 @@ const InvoiceForm = ({ onClose, invoiceId }) => {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues:
-      // {
-      //   streetAddress: userData.from.streetAddress,
-      //   city: userData.from.city,
-      //   postCode: userData.from.postCode,
-      //   country: userData.from.country,
-      //   clientName: userData.to.name,
-      //   clientEmail: userData.to.email,
-      //   clientStreetAddress: userData.to.address.streetAddress,
-      //   clientCity: userData.to.address.city,
-      //   clientPostCode: userData.to.address.postCode,
-      //   clientCountry: userData.to.address.country,
-      //   invoiceDate: userData.invoiceDate,
-      //   paymentTerms: userData.paymentTerms,
-      // },
       {
-        streetAddress: "19 Union Terrace",
-        city: "London",
-        postCode: "E1 3EZ",
-        country: "United Kingdom",
-        clientName: "Thomas Wayne",
-        clientEmail: "thomas@dc.com",
-        clientStreetAddress: "3964 Queens Lane",
-        clientCity: "Gotham",
-        clientPostCode: "60457",
-        clientCountry: "United States of America",
-        invoiceDate: "2021-08-01",
-        paymentTerms: "2022-08-31",
+        streetAddress: userData.from.streetAddress,
+        city: userData.from.city,
+        postCode: userData.from.postCode,
+        country: userData.from.country,
+        clientName: userData.to.name,
+        clientEmail: userData.to.email,
+        clientStreetAddress: userData.to.address.streetAddress,
+        clientCity: userData.to.address.city,
+        clientPostCode: userData.to.address.postCode,
+        clientCountry: userData.to.address.country,
+        invoiceDate: userData.invoiceDate,
+        paymentTerms: userData.paymentTerms,
       },
+      // {
+      //   streetAddress: "19 Union Terrace",
+      //   city: "London",
+      //   postCode: "E1 3EZ",
+      //   country: "United Kingdom",
+      //   clientName: "Thomas Wayne",
+      //   clientEmail: "thomas@dc.com",
+      //   clientStreetAddress: "3964 Queens Lane",
+      //   clientCity: "Gotham",
+      //   clientPostCode: "60457",
+      //   clientCountry: "United States of America",
+      //   invoiceDate: "2021-08-01",
+      //   paymentTerms: "2022-08-31",
+      // },
   });
 
   // streetAddress: "19 Union Terrace",
@@ -74,11 +74,18 @@ const InvoiceForm = ({ onClose, invoiceId }) => {
   // clientCountry: "United States of America",
   // invoiceDate: "2021-08-01",
   // paymentTerms: "2022-08-31",
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update, replace } = useFieldArray({
     control,
     name: "payList",
     // defaultValues: userData.payList,
   });
+
+  useEffect(() => {
+    if (!!userData.payList.length) {
+      replace(userData.payList)
+    }
+  }, [replace, userData.payList]);
+  console.log(fields)
 
   const formFields = [
     "streetAddress",
@@ -103,7 +110,7 @@ const InvoiceForm = ({ onClose, invoiceId }) => {
     if (addUser) {
       dispatch(addInvoice(values));
     } else {
-      dispatch(modifyUser({ values: values, id: invoiceId }));
+      dispatch(modifyUser({ values, id: invoiceId }));
     }
     dispatch(setUserData({}));
   }

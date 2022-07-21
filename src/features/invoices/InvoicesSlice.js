@@ -200,29 +200,8 @@ const invoicesSlice = createSlice({
     setUserData(state, { payload }) {
       // jak dawalem pusty obiekt to wywalalo blad
       // a ? nic nie robil
-      if (Object.keys(payload).length === 0) {
-        state.currentUserData = {
-          id: "",
-          invoiceDate: "",
-          paymentTerms: "",
-          from: {
-            streetAddress: "",
-            city: "",
-            postCode: "",
-            country: "",
-          },
-          to: {
-            name: "",
-            email: "",
-            address: {
-              streetAddress: "",
-              city: "",
-              postCode: "",
-              country: "",
-            },
-          },
-          payList: [],
-        };
+      if (Object.keys(payload || {}).length === 0) {
+        state.currentUserData = initialState.currentUserData;
       } else {
         state.currentUserData = payload;
       }
@@ -251,7 +230,5 @@ export default invoicesSlice.reducer;
 
 // TODO
 // itemToPay.jsx 36
-// slice: setUserData
-// slice: create user i modify user ostatnie dwa dzialania 
-// paylist przy edicie nie dziala
-// czemu w formluarzu w autouzupelnianiu mi na dobrych miejscach wszystko dziala
+
+// || vs ??
